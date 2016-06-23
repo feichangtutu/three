@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>My first Three.js app</title>
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+<script src="js/three.js"></script>
+<script>
+
+
+//    add panorama
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.load('textures/pic2.jpg',function(texture){
+        texture.mapping = THREE.UVMapping;
+        init(texture);
+
+    })
+    var camera, scene, renderer;
+
+    var fov = 60,
+            isUserInteracting = false;
+    function init(texture){
+        camera = new THREE.PerspectiveCamera(fov,window.innerWidth/window.innerHeight,1,1000);
+        scene = new THREE.Scene();
+//        SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
+//        radius — sphere radius. Default is 50.
+//        widthSegments — number of horizontal segments. Minimum value is 3, and the default is 8.
+//        heightSegments — number of vertical segments. Minimum value is 2, and the default is 6.
+        var mesh = new THREE.Mesh(new THREE.SphereGeometry(500, 32, 16));
+        mesh.scale.x=-1;
+        scene.add(mesh);
+
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        cubeCamera1 = new THREE.CubeCamera( 1, 1000, 256 );
+        cubeCamera1.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+        scene.add(cubeCamera1);
+
+        console.log(renderer.domElement)
+        document.body.appendChild(renderer.domElement)
+
+        material = new THREE.MeshBasicMaterial( {
+            envMap: cubeCamera1.renderTarget.texture
+        } );
+
+        sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 20, 3 ), material );
+        scene.add( sphere );
+        cube = new THREE.Mesh( new THREE.BoxGeometry( 20, 20, 20 ), material );
+        scene.add( cube );
+        torus = new THREE.Mesh( new THREE.TorusKnotGeometry( 10, 5, 100, 25 ), material );
+        scene.add( torus );
+//        render();
+        requestAnimationFrame( render );
+        renderer.render( scene, camera );
+        //    animating the cube
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.01;
+        mesh.rotation.z += 0.01;
+    }
+    //rendering the scene
+    function render() {
+
+    }
+
+
+</script>
+</body>
+</html>

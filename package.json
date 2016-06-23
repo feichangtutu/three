@@ -1,0 +1,23 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "three.js study",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/feichangtutu/three.git"
+  },
+  "keywords": [
+    "three.js",
+    "webgl"
+  ],
+  "author": "Yanni Jia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/feichangtutu/three/issues"
+  },
+  "homepage": "https://github.com/feichangtutu/three#readme"
+}
