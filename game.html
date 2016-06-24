@@ -36,7 +36,24 @@
     window.addEventListener('load', init, false);
     function init(){
 //        创建长江，相机和渲染器
+        createScene();
+//        添加光源
+        createLights();
+//        添加对象
+        createPlane();
+        createSea();
+        createSky();
+//        调用循环函数，在每帧更新对象的位置渲染场景
+        loop();
     }
+//    Three.js 场景只有一种，THREE.Scene 场景是所有物体的容器。
+//    相机决定了场景中哪个角度的景色会显示出来。
+//    渲染器决定了渲染的结果应该显示在页面的什么元素上，并以怎样的方式绘制。
+//    有了这三样东西，才能使用相机将对象渲染到页面中。
+
+    var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, HEIGHT, WIDTH, renderer, container;
+
+
 
 </script>
 </html>
