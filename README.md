@@ -6,12 +6,12 @@
 * intensity -- Numeric value of the light's strength/intensity.
 
 #####Properties
-*.target
+* .target
 Target used for shadow camera orientation.
 
-*.shadow
+* .shadow
 This property stores all relevant information for rendering the shadow of the light.
 
-*.castShadow
+* .castShadow
 If set to true light will cast dynamic shadows. Warning: This is expensive and requires tweaking to get shadows looking right.
 Default — false.

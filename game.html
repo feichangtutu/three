@@ -266,11 +266,34 @@
 
 //            设置每朵云的旋转角度和位置
 //            使用一点三角函数达到此效果
+            var a = stepAngle*i;//这是云的最终角度
+            var h = 750 +Math.random()*200;//这是轴的中心和云本身之间的距离
 
+            c.mesh.position.y = Math.sin(a)*h;
+            c.mesh.position.x = Math.cos(a)*h;
+
+//            根据云的位置旋转它
+            c.mesh.rotation.z = a +Math.PI/2;
+
+//            为了更好的效果，我们把云放置在场景中的随机深度位置 说的什么这是？？
+            c.mesh.position.z = -400-Math.random()*400;
+
+//            为每一朵云设置一个随机大小
+            var s = 1+Math.random()*2;
+            c.mesh.scale.set(s,s,s);
+
+//            把云添加到场景中
+            this.mesh.add(c.mesh);
         }
-
     }
+//实例化天空对象，而且将它放置在屏幕中间稍微偏下到位置
+    var sky;
 
-
+    function createSky(){
+        sky = new Sky();
+        sky.mesh.position.y = -600;
+        scene.add(sky.mesh);
+    }
+//创建飞机模型
 </script>
 </html>
