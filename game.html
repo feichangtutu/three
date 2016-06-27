@@ -161,6 +161,115 @@
         scene.add(shadowLight);
     }
 
+//添加大海
+//    首先定义一个大海对象
+     Sea = function(){
+//         创建一个圆柱几何体
+//         参数为：顶面半径，底面半径，高度，半径分段，高度分段
+         var geom = new THREE.CylinderGeometry(600, 600, 800, 40, 10);
+
+//         在x轴旋转几何体
+//         Sets this matrix as rotation transform around x axis by theta radians.
+         geom.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
+
+//         创建材质
+         var mat = new THREE.MeshPhongMaterial({
+             color:Colors.blue,
+             transparent:true,
+             opacity:.6,
+             shading:THREE.FlatShading,
+         });
+
+//         为了在THREE.js创建一个物体，我们必须创建网格用来组合几何体和一些材质
+         this.mesh = new THREE.Mesh(geom, mat)；
+
+//         允许大海对象接收阴影
+         this.mesh.receiveShadow = true;
+     }
+
+//    实例化大海对象，并添加至场景
+    var sea;
+
+    function createSea(){
+        sea = new Sea();
+
+//        在场景底部，稍微推挤一下
+        sea.mesh.position.y = -600;
+
+//        添加大海的网格至场景
+        scene.add(sea.mesh);
+    }
+//    总结一下创建对象，需要什么东西。
+//    我们需要：
+//
+//    创建几何体
+//    创建材质
+//    将它们传入网格
+//    将网格添加至场景
+
+    Cloud = function () {
+//        创建一个空的容器放置不同形状的云
+        this.mesh = new THREE.Object3D();
+
+//        创建一个正方体
+//        这个形状会被复制创建云
+        var geom = new THREE.BoxGeometry(20,20,20);
+
+//        创建材质   一个简单的白色材质就可以达到效果
+        var mat = new THREE.MeshPhongMaterial({
+            color:Colors.white,
+        });
+
+//        随机多次复制几何体
+        var nBlocs = 3+Math.floor(Math.random()*3);
+        for(var i=0; i<nBlocs;i++){
+
+//            通过复制几何体创建网格
+            var  m = new THREE.Mesh(geom, mat);
+
+//            随机设置每个正方体的位置喝旋转角度
+            m.position.x = i*15;
+            m.position.y = Math.random()*10;
+            m.position.z = Math.random()*10;
+            m.rotation.y = Math.random()*Math.PI*2;
+            m.rotation.z = Math.random()*Math.PI*2;
+
+//            随机设置正方体的大小
+            var s = .1 + Math.random()*.9;
+            m.scale.set(s,s,s);
+
+//            允许每个正方体生成投影和接受阴影
+            m.castShadow = true;
+            m.receiveShadow = true;
+
+//            将正方体添加至我们创建的容器中
+            this.mesh.add(m);
+        }
+    }
+
+//    创建天空，放在z轴任意位置
+//    定义一个天空对象
+    Sky = function(){
+//        创建一个空的容器
+        this.mesh = new THREE.Object3D();
+
+//        选取若干朵云散布在天空中
+        this.nClouds = 20;
+
+//         把云均匀地散布
+//        我们需要根据统一的角度放置它们
+        var stepAngle = Math.PI*2 / this.nClouds;
+
+//        创建云对象
+        for(var i=0; i< this.nClouds;i++){
+            var c = new Cloud();
+
+//            设置每朵云的旋转角度和位置
+//            使用一点三角函数达到此效果
+
+        }
+
+    }
 
 
 </script>

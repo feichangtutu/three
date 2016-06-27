@@ -1,5 +1,5 @@
 # three
-### copy a plane game
+### copy a plane game from [three.js plane demo](http://www.jianshu.com/p/92771817c73f)
 
 ####DirectionalLight( hex, intensity )
 *hex -- Numeric value of the RGB component of the color. 
