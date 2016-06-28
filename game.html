@@ -413,6 +413,12 @@
 
 //        这里我把接收到的鼠标位置的值转换成归一化值， 在－1到1之间变化
 //        x轴的公式
+        var tx = -1 + (event.clientX /WIDTH) *2;
+
+//       对于y轴，需要一个逆公式  2d的y轴和3d的y轴方向相反
+
+        var ty = 1 - (event.clientY / HEIGHT) *2;
+        mousePos = {x:tx, y:ty};
     }
 </script>
 </html>
