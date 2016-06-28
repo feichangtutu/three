@@ -110,7 +110,9 @@
         container.appendChild(renderer.domElement);
 
 //        监听屏幕，缩放屏幕更新相机和渲染器的尺寸
-        window.addEventListener('resize', handleWindowResize, false)
+        window.addEventListener('resize', handleWindowResize, false);
+        renderer.render(scene, camera);
+
     }
 
     function handleWindowResize() {
@@ -177,11 +179,11 @@
              color:Colors.blue,
              transparent:true,
              opacity:.6,
-             shading:THREE.FlatShading,
+             shading:THREE.FlatShading
          });
 
 //         为了在THREE.js创建一个物体，我们必须创建网格用来组合几何体和一些材质
-         this.mesh = new THREE.Mesh(geom, mat)；
+         this.mesh = new THREE.Mesh(geom, mat);
 
 //         允许大海对象接收阴影
          this.mesh.receiveShadow = true;
@@ -313,7 +315,7 @@
 //        创建引擎
         var geomEngine = new THREE.BoxGeometry(20, 50, 50, 1, 1,1)
         var matEngine = new THREE.MeshPhongMaterial({
-            color: Clors.white,
+            color: Colors.white,
             shading: THREE.FlatShading
         })
         var engine = new THREE.Mesh(geomEngine, matEngine);
@@ -374,12 +376,31 @@
      var airplane;
 
     function createPlane(){
-        airplane = new AirPlane();
+        airplane = new airPlane();
         airplane.mesh.scale.set(.25,.25,.25);
         airplane.mesh.position.y = 100;
-        scene.add(airplane.mesh)
+        scene.add(airplane.mesh);
+        renderer.render(scene, camera);
+
     }
 
-    renderer.render(scene, camera);
+
+//    add 动画
+//    渲染有两种，实时渲染和离线渲染
+
+    function loop(){
+//        使螺旋桨旋转并转动大海和云
+        airplane.propeller.rotation.x += 0.3;
+        sea.mesh.rotation.z += .005;
+        sky.mesh.rotation.z += .01;
+
+//        渲染场景：
+        renderer.render(scene, camera);
+
+//        重新调用render()函数
+        requestAnimationFrame(loop);
+    }
+// 添加鼠标交互
+
 </script>
 </html>
