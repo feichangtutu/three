@@ -301,7 +301,7 @@
         scene.add(sky.mesh);
     }
 //创建飞机模型
-    var airPlane = function(){
+    airPlane = function(){
 
         this.mesh = new THREE.Object3D();
 
@@ -375,6 +375,8 @@
         this.propeller.add(blade);
         this.propeller.position.set(50, 0, 0);
         this.mesh.add(this.propeller);
+        renderer.render(scene, camera);
+
     };
 
      var airplane;
@@ -384,19 +386,21 @@
         airplane.mesh.scale.set(.25,.25,.25);
         airplane.mesh.position.y = 100;
         scene.add(airplane.mesh);
-        renderer.render(scene, camera);
-
     }
 
 
 //    add 动画
 //    渲染有两种，实时渲染和离线渲染
 
+//    修改循环函数并添加一个新功能去更新飞机的位置
     function loop(){
 //        使螺旋桨旋转并转动大海和云
-        airplane.propeller.rotation.x += 0.3;
+//        airplane.propeller.rotation.x += 0.3;
         sea.mesh.rotation.z += .005;
         sky.mesh.rotation.z += .01;
+
+//        更新每帧的飞机
+        updatePlane();
 
 //        渲染场景：
         renderer.render(scene, camera);
@@ -404,6 +408,35 @@
 //        重新调用render()函数
         requestAnimationFrame(loop);
     }
+    function updatePlane(){
+//         在x轴上－100至100之间和y轴25至175之间移动飞机
+//        根据鼠标的位置在－1与之间的范围，使用normalize函数实现
+
+        console.log(mousePos.x);
+        console.log(mousePos.y);
+
+        var targetX = normalize(mousePos.x, -1, 1, -100, 100);
+        var targetY = normalize(mousePos.y, -1, 1, 25, 175);
+
+//        更新飞机的位置
+        airplane.mesh.position.y = targetY;
+        airplane.mesh.position.x = targetX;
+
+//        console.log( airplane.mesh.position.y);
+//        console.log( airplane.mesh.position.x);
+        airplane.propeller.rotation.x += 0.3;
+    }
+
+    function normalize(v, vmin, vmax, tmin, tmax){
+        var nv = Math.max(Math.min(v,vmax), vmin);
+        var dv = vmax-vmin;
+        var pc = (nv-vmin)/dv;
+        var dt = tmax - tmin;
+        var tv = tmin + (pc*dt);
+        return tv;
+    }
+
+
 // 添加鼠标交互
     var mousePos = {x:0, y:0};
 
@@ -413,12 +446,14 @@
 
 //        这里我把接收到的鼠标位置的值转换成归一化值， 在－1到1之间变化
 //        x轴的公式
-        var tx = -1 + (event.clientX /WIDTH) *2;
+//        这什么公式？？？
+        var tx = -1 + (event.clientX / WIDTH) *2;
 
 //       对于y轴，需要一个逆公式  2d的y轴和3d的y轴方向相反
 
         var ty = 1 - (event.clientY / HEIGHT) *2;
         mousePos = {x:tx, y:ty};
     }
+
 </script>
 </html>
